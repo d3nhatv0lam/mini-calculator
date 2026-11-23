@@ -7,11 +7,52 @@ namespace MiniCalculator.Presenters;
 public class MainViewPresenter : IDisposable
 {
     private readonly IMainView _view;
+    private readonly ICalculationHistoryRepository _historyRepo;
 
-    public MainViewPresenter(IMainView view)
+
+    public MainViewPresenter(IMainView view, ICalculationHistoryRepository historyRepo)
     {
         _view = view ?? throw new ArgumentNullException(nameof(view));
+        _historyRepo = historyRepo ?? throw new ArgumentNullException(nameof(historyRepo));
+
         _view.CalculateRequested += OnCalculateRequested;
+        _view.ClearHistoryRequested += OnClearHistoryRequested;
+        _view.HistoryItemSelected += OnHistoryItemSelected;
+
+        LoadHistory();
+    }
+
+    private void LoadHistory()
+    {
+        try
+        {
+            var history = _historyRepo.GetAll(50);
+            _view.DisplayHistory(history);
+        }
+        catch
+        {
+            // Tránh crash nếu có sự cố đọc DB
+        }
+    }
+
+    private void OnHistoryItemSelected(object? sender, CalculationHistory item)
+    {
+        if (item == null) return;
+        _view.SetExpression(item.Expression);
+        _view.ShowCalculationSuccess(item.Result);
+    }
+
+    private void OnClearHistoryRequested(object? sender, EventArgs e)
+    {
+        try
+        {
+            _historyRepo.ClearAll();
+            LoadHistory();
+        }
+        catch
+        {
+            // Tránh crash nếu có sự cố xóa DB
+        }
     }
 
     private void OnCalculateRequested(object? sender, ExpressionCalculateEventArgs e)
@@ -30,6 +71,17 @@ public class MainViewPresenter : IDisposable
             var formattedResult = result.ToString("G15", CultureInfo.InvariantCulture);
 
             _view.ShowCalculationSuccess(formattedResult);
+
+            // Lưu vào SQLite và làm mới danh sách lịch sử
+            try
+            {
+                _historyRepo.Add(expr, formattedResult);
+                LoadHistory();
+            }
+            catch
+            {
+                // Không chặn người dùng nếu lưu DB gặp sự cố
+            }
         }
         catch (DivideByZeroException ex)
         {
@@ -71,5 +123,7 @@ public class MainViewPresenter : IDisposable
     public void Dispose()
     {
         _view.CalculateRequested -= OnCalculateRequested;
+        _view.ClearHistoryRequested -= OnClearHistoryRequested;
+        _view.HistoryItemSelected -= OnHistoryItemSelected;
     }
 }

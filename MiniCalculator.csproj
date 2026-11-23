@@ -6,6 +6,7 @@
         <Nullable>enable</Nullable>
         <UseWindowsForms>true</UseWindowsForms>
         <ImplicitUsings>enable</ImplicitUsings>
+        <RollForward>Major</RollForward>
     </PropertyGroup>
     
     <ItemGroup>
@@ -22,6 +23,7 @@
 
     <ItemGroup>
         <PackageReference Include="AntdUI" Version="2.4.20" />
+        <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.11" />
     </ItemGroup>
 
 </Project>

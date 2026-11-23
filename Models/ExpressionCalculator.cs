@@ -216,7 +216,7 @@ public static class ExpressionCalculator
                     throw new ExpressionParseException(errPos, "Hàm 'pow' thiếu dấu phẩy ',' phân tách giữa cơ số và số mũ.");
                 }
 
-                _currentPos++; // Bỏ qua ','
+                _currentPos++;
                 SkipWhitespace();
 
                 if (_currentPos >= _input.Length || _input[_currentPos] == ')')
@@ -233,7 +233,7 @@ public static class ExpressionCalculator
                     throw new ExpressionParseException(openParenPos, "Hàm 'pow' thiếu dấu ngoặc đóng ')' tương ứng.");
                 }
 
-                _currentPos++; // Bỏ qua ')'
+                _currentPos++;
 
                 // Kiểm tra ràng buộc toán học
                 if (Math.Abs(arg1) < 1e-15 && Math.Abs(arg2) < 1e-15)
@@ -282,7 +282,7 @@ public static class ExpressionCalculator
                     throw new ExpressionParseException(errPos, "Hàm 'root' thiếu dấu phẩy ',' phân tách giữa số cần khai căn và bậc căn.");
                 }
 
-                _currentPos++; // Bỏ qua ','
+                _currentPos++;
                 SkipWhitespace();
 
                 if (_currentPos >= _input.Length || _input[_currentPos] == ')')
@@ -299,7 +299,7 @@ public static class ExpressionCalculator
                     throw new ExpressionParseException(openParenPos, "Hàm 'root' thiếu dấu ngoặc đóng ')' tương ứng.");
                 }
 
-                _currentPos++; // Bỏ qua ')'
+                _currentPos++;
 
                 // Kiểm tra ràng buộc toán học
                 if (Math.Abs(arg2) < 1e-15)

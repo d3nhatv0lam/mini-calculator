@@ -1,3 +1,4 @@
+using MiniCalculator.Models;
 using MiniCalculator.Presenters;
 using MiniCalculator.Views;
 
@@ -15,8 +16,9 @@ static class Program
         // see https://aka.ms/applicationconfiguration.
         ApplicationConfiguration.Initialize();
         
+        var historyRepo = new SqliteCalculationHistoryRepository();
         MainView view = new MainView();
-        MainViewPresenter viewPresenter = new MainViewPresenter(view);
+        MainViewPresenter viewPresenter = new MainViewPresenter(view, historyRepo);
         
         Application.Run(view);
         

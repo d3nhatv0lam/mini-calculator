@@ -145,4 +145,75 @@ public class MiniCalculatorTests
         Assert.Contains(expectedErrorMessagePart, ex.Message);
         Assert.Equal(expectedPosition, ex.Position);
     }
+
+    #region Power and Root Functions
+
+    [Theory]
+    [InlineData("pow(2, 8)", 256.0)]
+    [InlineData("pow(-3, 4)", 81.0)]
+    [InlineData("pow(-2, 5)", -32.0)]
+    [InlineData("pow(1.5, 2)", 2.25)]
+    [InlineData("pow(2, -3)", 0.125)]
+    [InlineData("pow(999, 0)", 1.0)]
+    public void Calculate_Power_ValidInputs_ReturnsCorrectResult(string expression, double expected)
+    {
+        double actual = ExpressionCalculator.Calculate(expression);
+        Assert.Equal(expected, actual, precision: 6);
+    }
+
+    [Theory]
+    [InlineData("pow(0, 0)", "không xác định")]
+    [InlineData("pow(-4, 0.5)", "Số mũ không nguyên")]
+    public void Calculate_Power_InvalidInputs_ThrowsExpressionParseException(string expression, string expectedErrorSubstr)
+    {
+        var ex = Assert.Throws<ExpressionParseException>(() => ExpressionCalculator.Calculate(expression));
+        Assert.Contains(expectedErrorSubstr, ex.Message, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void Calculate_Power_ZeroWithNegativeExponent_ThrowsDivideByZeroException()
+    {
+        Assert.Throws<DivideByZeroException>(() => ExpressionCalculator.Calculate("pow(0, -2)"));
+    }
+
+    [Theory]
+    [InlineData("root(81, 2)", 9.0)]
+    [InlineData("root(125, 3)", 5.0)]
+    [InlineData("root(-27, 3)", -3.0)]
+    [InlineData("root(0.0625, 4)", 0.5)]
+    public void Calculate_Root_ValidInputs_ReturnsCorrectResult(string expression, double expected)
+    {
+        double actual = ExpressionCalculator.Calculate(expression);
+        Assert.Equal(expected, actual, precision: 6);
+    }
+
+    [Theory]
+    [InlineData("root(16, 0)", "Bậc căn không thể bằng 0")]
+    [InlineData("root(-16, 2)", "căn bậc chẵn của số âm")]
+    public void Calculate_Root_InvalidInputs_ThrowsExpressionParseException(string expression, string expectedErrorSubstr)
+    {
+        var ex = Assert.Throws<ExpressionParseException>(() => ExpressionCalculator.Calculate(expression));
+        Assert.Contains(expectedErrorSubstr, ex.Message, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Theory]
+    [InlineData("pow(root(64, 3), 2)", 16.0)]
+    [InlineData("pow(2 + 3, 6 / 2)", 125.0)]
+    [InlineData("2 * pow(3, 2) + root(100, 2) / 2", 23.0)]
+    public void Calculate_NestedFunctions_And_ComplexArgs_ReturnsCorrectResult(string expression, double expected)
+    {
+        double actual = ExpressionCalculator.Calculate(expression);
+        Assert.Equal(expected, actual, precision: 6);
+    }
+
+    [Theory]
+    [InlineData("pow(5)", "thiếu dấu phẩy")]
+    [InlineData("root(16)", "thiếu dấu phẩy")]
+    public void Calculate_PowerAndRoot_SyntaxErrors_ThrowsExpressionParseException(string expression, string expectedErrorSubstr)
+    {
+        var ex = Assert.Throws<ExpressionParseException>(() => ExpressionCalculator.Calculate(expression));
+        Assert.Contains(expectedErrorSubstr, ex.Message, StringComparison.OrdinalIgnoreCase);
+    }
+
+    #endregion
 }
