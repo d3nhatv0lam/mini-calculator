@@ -31,16 +31,23 @@ public class MainViewPresenter : IDisposable
 
             _view.ShowCalculationSuccess(formattedResult);
         }
-        catch (DivideByZeroException)
+        catch (DivideByZeroException ex)
         {
-            _view.ShowCalculationError("Lỗi toán học: Không thể chia cho 0!", null);
+            _view.ShowCalculationError(string.IsNullOrWhiteSpace(ex.Message) ? "Lỗi toán học: Không thể chia cho 0!" : ex.Message, null);
         }
         catch (ExpressionParseException ex)
         {
-            var nonSpacePos = CountNonWhitespaceCharacters(expr, ex.Position);
-            var locationText = nonSpacePos > 0 ? $"tại ký tự thứ {nonSpacePos}: " : "";
+            if (ex.ExpressionMessage.StartsWith("Lỗi toán học", StringComparison.OrdinalIgnoreCase))
+            {
+                _view.ShowCalculationError(ex.ExpressionMessage, ex.Position);
+            }
+            else
+            {
+                var nonSpacePos = CountNonWhitespaceCharacters(expr, ex.Position);
+                var locationText = nonSpacePos > 0 ? $"tại ký tự thứ {nonSpacePos}: " : "";
 
-            _view.ShowCalculationError($"Lỗi cú pháp {locationText}{ex.ExpressionMessage}", ex.Position);
+                _view.ShowCalculationError($"Lỗi cú pháp {locationText}{ex.ExpressionMessage}", ex.Position);
+            }
         }
         catch (Exception)
         {
