@@ -4,99 +4,85 @@ namespace MiniCalculator.Views.Helpers;
 public static class ExpressionInputHelper
 {
     /// <summary>
-    /// Tính toán chuỗi mới và vị trí con trỏ mới khi người dùng bấm nút hàm (pow hoặc root).
-    /// Tự động nhận diện toán hạng x trước con trỏ để bao bọc thành funcName(x, .
+    /// Tính toán chuỗi mới và vị trí con trỏ mới khi người dùng bấm nút hàm (pow, root...).
+    /// nhận diện toán hạng x trước con trỏ để bao bọc thành funcName(x, .
     /// </summary>
     public static (string newText, int newPos) ComputeSmartWrap(string text, int pos, string funcName)
     {
-        if (string.IsNullOrEmpty(text)) text = "";
-        if (pos < 0 || pos > text.Length)
+        text ??= "";
+        pos = Math.Clamp(pos, 0, text.Length);
+        
+        int end = pos;
+        while (end > 0 && char.IsWhiteSpace(text[end - 1]))
         {
-            pos = text.Length;
+            end--;
         }
 
-        // Bỏ qua khoảng trắng trước con trỏ
-        int scan = pos;
-        while (scan > 0 && char.IsWhiteSpace(text[scan - 1]))
-        {
-            scan--;
-        }
+        int start = FindOperandStart(text, end);
+        
+        string replacement = start >= 0
+            ? $"{funcName}({text[start..end]}, "
+            : $"{funcName}(";
 
-        int targetStart = -1;
-        int targetEnd = scan;
+        int replaceFrom = start >= 0 ? start : pos;
+        string newText = string.Concat(text.AsSpan(0, replaceFrom), replacement, text.AsSpan(pos));
+        int newPos = replaceFrom + replacement.Length;
 
-        if (scan > 0)
-        {
-            char lastChar = text[scan - 1];
-
-            // Kết thúc bằng dấu ngoặc đóng ')' -> tìm cặp ngoặc '(' tương ứng
-            if (lastChar == ')')
-            {
-                int parenDepth = 1;
-                int i = scan - 2;
-                while (i >= 0 && parenDepth > 0)
-                {
-                    if (text[i] == ')') parenDepth++;
-                    else if (text[i] == '(') parenDepth--;
-                    i--;
-                }
-
-                if (parenDepth == 0)
-                {
-                    targetStart = i + 1;
-
-                    // Nếu trước dấu ngoặc '(' là tên hàm (pow/root), gom cả tên hàm vào
-                    int checkFunc = targetStart;
-                    while (checkFunc > 0 && char.IsLetter(text[checkFunc - 1]))
-                    {
-                        checkFunc--;
-                    }
-                    if (checkFunc < targetStart)
-                    {
-                        string prefix = text.Substring(checkFunc, targetStart - checkFunc);
-                        if (prefix.Equals("pow", StringComparison.OrdinalIgnoreCase) || 
-                            prefix.Equals("root", StringComparison.OrdinalIgnoreCase))
-                        {
-                            targetStart = checkFunc;
-                        }
-                    }
-                }
-            }
-            // Trường hợp 2: Kết thúc bằng một số (chữ số hoặc dấu chấm thập phân)
-            else if (char.IsDigit(lastChar) || lastChar == '.')
-            {
-                int i = scan - 1;
-                while (i >= 0 && (char.IsDigit(text[i]) || text[i] == '.'))
-                {
-                    i--;
-                }
-                targetStart = i + 1;
-            }
-        }
-
-        // Thực hiện bọc hoặc chèn khuôn mẫu
-        if (targetStart >= 0 && targetStart < targetEnd)
-        {
-            // Có toán hạng x phía trước -> viết thành funcName(x, 
-            string operand = text.Substring(targetStart, targetEnd - targetStart);
-            string replacement = $"{funcName}({operand}, ";
-
-            string newText = text.Remove(targetStart, pos - targetStart).Insert(targetStart, replacement);
-            int newPos = targetStart + replacement.Length;
-            return (newText, newPos);
-        }
-        else
-        {
-            // Không có toán hạng phía trước -> chỉ chèn funcName(
-            string insertion = $"{funcName}(";
-            string newText = text.Insert(pos, insertion);
-            int newPos = pos + insertion.Length;
-            return (newText, newPos);
-        }
+        return (newText, newPos);
     }
 
     /// <summary>
-    /// Xác định số lượng ký tự cần xóa khi nhấn Backspace bên trái con trỏ.
+    /// đi ngược từ vị trí end để tìm vị trí bắt đầu của toán hạng (số hoặc cặp ngoặc/hàm).
+    /// Trả về -1 nếu không tìm thấy toán hạng hợp lệ.
+    /// </summary>
+    private static int FindOperandStart(string text, int end)
+    {
+        if (end <= 0) return -1;
+
+        char lastChar = text[end - 1];
+
+        // 1. Kết thúc bằng ')' thì tìm '(' tương ứng và gom cả tên hàm phía trước (nếu có)
+        if (lastChar == ')')
+        {
+            int depth = 1;
+            int i = end - 2;
+            while (i >= 0 && depth > 0)
+            {
+                if (text[i] == ')') depth++;
+                else if (text[i] == '(') depth--;
+                i--;
+            }
+
+            if (depth != 0) return -1; 
+
+            int openParen = i + 1;
+            int funcStart = openParen;
+            // Gom toàn bộ tên hàm đứng liền trước '(' (ví dụ: pow, root...)
+            while (funcStart > 0 && char.IsLetter(text[funcStart - 1]))
+            {
+                funcStart--;
+            }
+            return funcStart;
+        }
+
+        // Kết thúc bằng số (hỗ trợ số nguyên và số thập phân)
+        if (char.IsDigit(lastChar) || lastChar == '.')
+        {
+            int i = end - 1;
+            bool hasDigit = false;
+            while (i >= 0 && (char.IsDigit(text[i]) || text[i] == '.'))
+            {
+                if (char.IsDigit(text[i])) hasDigit = true;
+                i--;
+            }
+            return hasDigit ? i + 1 : -1;
+        }
+
+        return -1;
+    }
+
+    /// <summary>
+    /// số lượng ký tự cần xóa khi nhấn Backspace bên trái con trỏ.
     /// root( (5 ký tự), pow( (4 ký tự), các toán tử kèm khoảng trắng ' + ' (3 ký tự), ', ' (2 ký tự).
     /// </summary>
     public static int ComputeDeleteCount(string text, int pos)
