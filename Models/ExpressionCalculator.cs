@@ -4,6 +4,7 @@ namespace MiniCalculator.Models;
 
 public static class ExpressionCalculator
 {
+    
     public static double Calculate(string expression)
     {
         if (expression == null || string.IsNullOrWhiteSpace(expression))
@@ -47,9 +48,12 @@ public static class ExpressionCalculator
     // E' -> + T E' | - T E' | ε
     // T  -> F T'
     // T' -> * F T' | / F T' | ε
-    // F  -> (E) | id | -F | +F
+    // F  -> (E) | id | -F | +F | pow(E, E) | root(E, E)
     private sealed class Parser
     {
+        private const double ZeroDelta = 1e-15;
+        private const double IntegerDelta = 1e-12;
+        
         private readonly string _input;
         private int _currentPos;
         
@@ -163,7 +167,7 @@ public static class ExpressionCalculator
                 }
                 else
                 {
-                    if (Math.Abs(result1) < 1e-15)
+                    if (Math.Abs(result1) < ZeroDelta)
                     {
                         throw new DivideByZeroException("Không thể thực hiện phép chia cho 0.");
                     }
@@ -185,6 +189,151 @@ public static class ExpressionCalculator
             }
 
             char c = _input[_currentPos];
+
+            // Xử lý hàm pow(E, E) -> pow(cơ_số, số_mũ)
+            if (_currentPos + 3 <= _input.Length && string.Compare(_input, _currentPos, "pow", 0, 3, StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                int funcPos = _currentPos;
+                _currentPos += 3;
+                SkipWhitespace();
+
+                if (_currentPos >= _input.Length || _input[_currentPos] != '(')
+                {
+                    throw new ExpressionParseException(_currentPos < _input.Length ? _currentPos : funcPos, "Hàm 'pow' thiếu dấu ngoặc mở '(' sau tên hàm.");
+                }
+
+                int openParenPos = _currentPos;
+                _currentPos++;
+                SkipWhitespace();
+
+                if (_currentPos < _input.Length && _input[_currentPos] == ')')
+                {
+                    throw new ExpressionParseException(openParenPos, "Hàm 'pow()' rỗng không chứa tham số.");
+                }
+
+                double arg1 = CheckExpression();
+                SkipWhitespace();
+
+                if (_currentPos >= _input.Length || _input[_currentPos] != ',')
+                {
+                    int errPos = _currentPos < _input.Length ? _currentPos : funcPos;
+                    throw new ExpressionParseException(errPos, "Hàm 'pow' thiếu dấu phẩy ',' phân tách giữa cơ số và số mũ.");
+                }
+
+                _currentPos++;
+                SkipWhitespace();
+
+                if (_currentPos >= _input.Length || _input[_currentPos] == ')')
+                {
+                    int errPos = _currentPos < _input.Length ? _currentPos : funcPos;
+                    throw new ExpressionParseException(errPos, "Hàm 'pow' thiếu tham số số mũ thứ hai.");
+                }
+
+                double arg2 = CheckExpression();
+                SkipWhitespace();
+
+                if (_currentPos >= _input.Length || _input[_currentPos] != ')')
+                {
+                    throw new ExpressionParseException(openParenPos, "Hàm 'pow' thiếu dấu ngoặc đóng ')' tương ứng.");
+                }
+
+                _currentPos++;
+
+                // Kiểm tra ràng buộc toán học
+                if (Math.Abs(arg1) < ZeroDelta && Math.Abs(arg2) < ZeroDelta)
+                {
+                    throw new ExpressionParseException(funcPos, "Lỗi toán học: Phép tính 0 mũ 0 không xác định.");
+                }
+                // 0 ^ (số âm)
+                if (Math.Abs(arg1) < ZeroDelta && arg2 < 0)
+                {
+                    throw new DivideByZeroException("Lỗi toán học: Không thể chia cho 0 (0 mũ âm).");
+                }
+                // số âm mũ x (x phải là số nguyên)
+                // vì không nguyên sẽ ra số phức
+                if (arg1 < 0 && Math.Abs(arg2 - Math.Round(arg2)) > IntegerDelta)
+                {
+                    throw new ExpressionParseException(funcPos, "Lỗi toán học: Không thể lấy số mũ không nguyên của số âm.");
+                }
+
+                return Math.Pow(arg1, arg2);
+            }
+
+            // Xử lý hàm root(E, E) -> root(số, bậc)
+            if (_currentPos + 4 <= _input.Length && string.Compare(_input, _currentPos, "root", 0, 4, StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                int funcPos = _currentPos;
+                _currentPos += 4;
+                SkipWhitespace();
+
+                if (_currentPos >= _input.Length || _input[_currentPos] != '(')
+                {
+                    throw new ExpressionParseException(_currentPos < _input.Length ? _currentPos : funcPos, "Hàm 'root' thiếu dấu ngoặc mở '(' sau tên hàm.");
+                }
+
+                int openParenPos = _currentPos;
+                _currentPos++;
+                SkipWhitespace();
+
+                if (_currentPos < _input.Length && _input[_currentPos] == ')')
+                {
+                    throw new ExpressionParseException(openParenPos, "Hàm 'root()' rỗng không chứa tham số.");
+                }
+
+                double arg1 = CheckExpression();
+                SkipWhitespace();
+
+                if (_currentPos >= _input.Length || _input[_currentPos] != ',')
+                {
+                    int errPos = _currentPos < _input.Length ? _currentPos : funcPos;
+                    throw new ExpressionParseException(errPos, "Hàm 'root' thiếu dấu phẩy ',' phân tách giữa số cần khai căn và bậc căn.");
+                }
+
+                _currentPos++;
+                SkipWhitespace();
+
+                if (_currentPos >= _input.Length || _input[_currentPos] == ')')
+                {
+                    int errPos = _currentPos < _input.Length ? _currentPos : funcPos;
+                    throw new ExpressionParseException(errPos, "Hàm 'root' thiếu tham số bậc căn thứ hai.");
+                }
+
+                double arg2 = CheckExpression();
+                SkipWhitespace();
+
+                if (_currentPos >= _input.Length || _input[_currentPos] != ')')
+                {
+                    throw new ExpressionParseException(openParenPos, "Hàm 'root' thiếu dấu ngoặc đóng ')' tương ứng.");
+                }
+
+                _currentPos++;
+
+                // Kiểm tra ràng buộc toán học
+                if (Math.Abs(arg2) < ZeroDelta)
+                {
+                    throw new ExpressionParseException(funcPos, "Lỗi toán học: Bậc căn không thể bằng 0.");
+                }
+
+                if (arg1 < 0)
+                {
+                    bool isInteger = Math.Abs(arg2 - Math.Round(arg2)) < IntegerDelta;
+                    if (!isInteger)
+                    {
+                        throw new ExpressionParseException(funcPos, "Lỗi toán học: Không thể khai căn bậc không nguyên của số âm.");
+                    }
+
+                    long degInt = (long)Math.Round(arg2);
+                    if (degInt % 2 == 0)
+                    {
+                        throw new ExpressionParseException(funcPos, "Lỗi toán học: Không thể lấy căn bậc chẵn của số âm.");
+                    }
+
+                    // Khai căn bậc lẻ của số âm: root(-8, 3) = -2
+                    return -Math.Pow(-arg1, 1.0 / arg2);
+                }
+
+                return Math.Pow(arg1, 1.0 / arg2);
+            }
 
             // Xử lý dấu ngoặc (E)
             if (c == '(')

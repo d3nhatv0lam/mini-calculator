@@ -1,5 +1,7 @@
+using System.Diagnostics;
 using System.Globalization;
 using MiniCalculator.Models;
+using MiniCalculator.Repositories;
 using MiniCalculator.Views;
 
 namespace MiniCalculator.Presenters;
@@ -7,11 +9,52 @@ namespace MiniCalculator.Presenters;
 public class MainViewPresenter : IDisposable
 {
     private readonly IMainView _view;
+    private readonly ICalculationHistoryRepository _historyRepo;
 
-    public MainViewPresenter(IMainView view)
+
+    public MainViewPresenter(IMainView view, ICalculationHistoryRepository historyRepo)
     {
         _view = view ?? throw new ArgumentNullException(nameof(view));
+        _historyRepo = historyRepo ?? throw new ArgumentNullException(nameof(historyRepo));
+
         _view.CalculateRequested += OnCalculateRequested;
+        _view.ClearHistoryRequested += OnClearHistoryRequested;
+        _view.HistoryItemSelected += OnHistoryItemSelected;
+
+        LoadHistory();
+    }
+
+    private void LoadHistory()
+    {
+        try
+        {
+            var history = _historyRepo.GetAll(50);
+            _view.DisplayHistory(history);
+        }
+        catch
+        {
+            // Tránh crash nếu có sự cố đọc DB
+        }
+    }
+
+    private void OnHistoryItemSelected(object? sender, CalculationHistory item)
+    {
+        if (item == null) return;
+        _view.SetExpression(item.Expression);
+        _view.ShowCalculationSuccess(item.Result);
+    }
+
+    private void OnClearHistoryRequested(object? sender, EventArgs e)
+    {
+        try
+        {
+            _historyRepo.ClearAll();
+            LoadHistory();
+        }
+        catch
+        {
+            // Tránh crash nếu có sự cố xóa DB
+        }
     }
 
     private void OnCalculateRequested(object? sender, ExpressionCalculateEventArgs e)
@@ -30,17 +73,34 @@ public class MainViewPresenter : IDisposable
             var formattedResult = result.ToString("G15", CultureInfo.InvariantCulture);
 
             _view.ShowCalculationSuccess(formattedResult);
+            
+            try
+            {
+                _historyRepo.Add(expr, formattedResult);
+                LoadHistory();
+            }
+            catch
+            {
+               // ignore
+            }
         }
-        catch (DivideByZeroException)
+        catch (DivideByZeroException ex)
         {
-            _view.ShowCalculationError("Lỗi toán học: Không thể chia cho 0!", null);
+            _view.ShowCalculationError(string.IsNullOrWhiteSpace(ex.Message) ? "Lỗi toán học: Không thể chia cho 0!" : ex.Message, null);
         }
         catch (ExpressionParseException ex)
         {
-            var nonSpacePos = CountNonWhitespaceCharacters(expr, ex.Position);
-            var locationText = nonSpacePos > 0 ? $"tại ký tự thứ {nonSpacePos}: " : "";
+            if (ex.ExpressionMessage.StartsWith("Lỗi toán học", StringComparison.OrdinalIgnoreCase))
+            {
+                _view.ShowCalculationError(ex.ExpressionMessage, ex.Position);
+            }
+            else
+            {
+                var nonSpacePos = CountNonWhitespaceCharacters(expr, ex.Position);
+                var locationText = nonSpacePos > 0 ? $"tại ký tự thứ {nonSpacePos}: " : "";
 
-            _view.ShowCalculationError($"Lỗi cú pháp {locationText}{ex.ExpressionMessage}", ex.Position);
+                _view.ShowCalculationError($"Lỗi cú pháp {locationText}{ex.ExpressionMessage}", ex.Position);
+            }
         }
         catch (Exception)
         {
@@ -64,5 +124,7 @@ public class MainViewPresenter : IDisposable
     public void Dispose()
     {
         _view.CalculateRequested -= OnCalculateRequested;
+        _view.ClearHistoryRequested -= OnClearHistoryRequested;
+        _view.HistoryItemSelected -= OnHistoryItemSelected;
     }
 }

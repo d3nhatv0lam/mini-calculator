@@ -1,4 +1,6 @@
+using MiniCalculator.Models;
 using MiniCalculator.Presenters;
+using MiniCalculator.Repositories;
 using MiniCalculator.Views;
 
 namespace MiniCalculator;
@@ -15,8 +17,9 @@ static class Program
         // see https://aka.ms/applicationconfiguration.
         ApplicationConfiguration.Initialize();
         
+        ICalculationHistoryRepository historyRepo = new SqliteCalculationHistoryRepository();
         MainView view = new MainView();
-        MainViewPresenter viewPresenter = new MainViewPresenter(view);
+        MainViewPresenter viewPresenter = new MainViewPresenter(view, historyRepo);
         
         Application.Run(view);
         
