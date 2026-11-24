@@ -1,7 +1,8 @@
 using System.Globalization;
 using Microsoft.Data.Sqlite;
+using MiniCalculator.Models;
 
-namespace MiniCalculator.Models;
+namespace MiniCalculator.Repositories;
 
 public class SqliteCalculationHistoryRepository : ICalculationHistoryRepository
 {

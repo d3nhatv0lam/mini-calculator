@@ -4,6 +4,7 @@ namespace MiniCalculator.Models;
 
 public static class ExpressionCalculator
 {
+    
     public static double Calculate(string expression)
     {
         if (expression == null || string.IsNullOrWhiteSpace(expression))
@@ -50,6 +51,9 @@ public static class ExpressionCalculator
     // F  -> (E) | id | -F | +F | pow(E, E) | root(E, E)
     private sealed class Parser
     {
+        private const double ZeroDelta = 1e-15;
+        private const double IntegerDelta = 1e-12;
+        
         private readonly string _input;
         private int _currentPos;
         
@@ -163,7 +167,7 @@ public static class ExpressionCalculator
                 }
                 else
                 {
-                    if (Math.Abs(result1) < 1e-15)
+                    if (Math.Abs(result1) < ZeroDelta)
                     {
                         throw new DivideByZeroException("Không thể thực hiện phép chia cho 0.");
                     }
@@ -236,15 +240,18 @@ public static class ExpressionCalculator
                 _currentPos++;
 
                 // Kiểm tra ràng buộc toán học
-                if (Math.Abs(arg1) < 1e-15 && Math.Abs(arg2) < 1e-15)
+                if (Math.Abs(arg1) < ZeroDelta && Math.Abs(arg2) < ZeroDelta)
                 {
                     throw new ExpressionParseException(funcPos, "Lỗi toán học: Phép tính 0 mũ 0 không xác định.");
                 }
-                if (Math.Abs(arg1) < 1e-15 && arg2 < 0)
+                // 0 ^ (số âm)
+                if (Math.Abs(arg1) < ZeroDelta && arg2 < 0)
                 {
                     throw new DivideByZeroException("Lỗi toán học: Không thể chia cho 0 (0 mũ âm).");
                 }
-                if (arg1 < 0 && Math.Abs(arg2 - Math.Round(arg2)) > 1e-12)
+                // số âm mũ x (x phải là số nguyên)
+                // vì không nguyên sẽ ra số phức
+                if (arg1 < 0 && Math.Abs(arg2 - Math.Round(arg2)) > IntegerDelta)
                 {
                     throw new ExpressionParseException(funcPos, "Lỗi toán học: Không thể lấy số mũ không nguyên của số âm.");
                 }
@@ -302,14 +309,14 @@ public static class ExpressionCalculator
                 _currentPos++;
 
                 // Kiểm tra ràng buộc toán học
-                if (Math.Abs(arg2) < 1e-15)
+                if (Math.Abs(arg2) < ZeroDelta)
                 {
                     throw new ExpressionParseException(funcPos, "Lỗi toán học: Bậc căn không thể bằng 0.");
                 }
 
                 if (arg1 < 0)
                 {
-                    bool isInteger = Math.Abs(arg2 - Math.Round(arg2)) < 1e-12;
+                    bool isInteger = Math.Abs(arg2 - Math.Round(arg2)) < IntegerDelta;
                     if (!isInteger)
                     {
                         throw new ExpressionParseException(funcPos, "Lỗi toán học: Không thể khai căn bậc không nguyên của số âm.");

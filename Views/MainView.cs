@@ -1,9 +1,6 @@
-using System;
-using System.Drawing;
-using System.Windows.Forms;
 using MiniCalculator.Models;
-using MiniCalculator.Services;
 using MiniCalculator.Views.Components;
+using MiniCalculator.Views.Helpers;
 
 namespace MiniCalculator.Views;
 
@@ -26,7 +23,7 @@ public partial class MainView : Form, IMainView
             if (e.KeyCode == Keys.Enter)
             {
                 e.SuppressKeyPress = true;
-                TriggerCalculation(txtCalcExpression.Text?.Trim() ?? "");
+                TriggerCalculation(txtCalcExpression.Text.Trim());
             }
             else if (e.KeyCode == Keys.Left)
             {
@@ -68,23 +65,36 @@ public partial class MainView : Form, IMainView
         btnLeft.Click += (s, e) => MoveCaretLeft();
         btnRight.Click += (s, e) => MoveCaretRight();
 
-        // Xóa lùi bên trái con trỏ ⌫ (Token-aware Backspace)
+        // Xóa lùi bên trái con trỏ
         btnBackspace.Click += (s, e) =>
         {
             int pos = txtCalcExpression.SelectionStart;
-            string text = txtCalcExpression.Text ?? "";
+            string text = txtCalcExpression.Text;
             if (pos <= 0 || text.Length == 0) return;
 
-            int selLen = txtCalcExpression.SelectionLength;
-            if (selLen > 0 && pos + selLen <= text.Length)
+            int selectionLength = txtCalcExpression.SelectionLength;
+
+            if (selectionLength > 0)
             {
-                txtCalcExpression.Text = text.Remove(pos, selLen);
-                txtCalcExpression.SelectionStart = pos;
-                txtCalcExpression.SelectionLength = 0;
-                txtCalcExpression.ScrollToCaret();
-                txtCalcExpression.Focus();
-                lblCalcResult.Text = "";
-                return;
+                var actualStart = pos;
+
+                if (pos + selectionLength >= text.Length
+                    || (pos - selectionLength >= 0 && text.Substring(pos - selectionLength, selectionLength) ==
+                        txtCalcExpression.SelectedText))
+                {
+                    actualStart = pos - selectionLength;
+                }
+
+                if (actualStart >= 0 && actualStart + selectionLength <= text.Length)
+                {
+                    txtCalcExpression.Text = text.Remove(actualStart, selectionLength);
+                    txtCalcExpression.SelectionStart = actualStart;
+                    txtCalcExpression.SelectionLength = 0;
+                    txtCalcExpression.ScrollToCaret();
+                    txtCalcExpression.Focus();
+                    lblCalcResult.Text = "";
+                    return;
+                }
             }
 
             int deleteCount = ExpressionInputHelper.ComputeDeleteCount(text, pos);
@@ -106,20 +116,14 @@ public partial class MainView : Form, IMainView
             txtCalcExpression.Focus();
         };
 
-        btnEqual.Click += (s, e) =>
-        {
-            TriggerCalculation(txtCalcExpression.Text?.Trim() ?? "");
-        };
+        btnEqual.Click += (s, e) => { TriggerCalculation(txtCalcExpression.Text.Trim()); };
 
-        btnClearHistory.Click += (s, e) =>
-        {
-            ClearHistoryRequested?.Invoke(this, EventArgs.Empty);
-        };
+        btnClearHistory.Click += (s, e) => { ClearHistoryRequested?.Invoke(this, EventArgs.Empty); };
     }
 
     private void InsertAtCursor(string text)
     {
-        string current = txtCalcExpression.Text ?? "";
+        string current = txtCalcExpression.Text;
         int pos = txtCalcExpression.SelectionStart;
 
         if (pos < 0 || pos > current.Length)
@@ -146,14 +150,6 @@ public partial class MainView : Form, IMainView
         lblCalcResult.Text = "";
     }
 
-    /// <summary>
-    /// Chuyển tiếp tới ExpressionInputHelper để bảo toàn tương thích ngược cho unit test.
-    /// </summary>
-    public static (string newText, int newPos) ComputeSmartWrap(string text, int pos, string funcName)
-    {
-        return ExpressionInputHelper.ComputeSmartWrap(text, pos, funcName);
-    }
-
     private void HandleSmartWrap(string funcName)
     {
         string text = txtCalcExpression.Text ?? "";
@@ -171,7 +167,7 @@ public partial class MainView : Form, IMainView
     private void MoveCaretLeft()
     {
         txtCalcExpression.Focus();
-        string text = txtCalcExpression.Text ?? "";
+        string text = txtCalcExpression.Text;
         int pos = txtCalcExpression.SelectionStart;
         txtCalcExpression.SelectionStart = ExpressionInputHelper.GetPreviousCaretPosition(text, pos);
         txtCalcExpression.SelectionLength = 0;
@@ -181,7 +177,7 @@ public partial class MainView : Form, IMainView
     private void MoveCaretRight()
     {
         txtCalcExpression.Focus();
-        string text = txtCalcExpression.Text ?? "";
+        string text = txtCalcExpression.Text;
         int pos = txtCalcExpression.SelectionStart;
         txtCalcExpression.SelectionStart = ExpressionInputHelper.GetNextCaretPosition(text, pos);
         txtCalcExpression.SelectionLength = 0;
@@ -204,7 +200,7 @@ public partial class MainView : Form, IMainView
         lblCalcResult.ForeColor = Color.FromArgb(207, 19, 34);
         lblCalcResult.Text = expressionMessage;
 
-        if (errorPosition.HasValue && errorPosition.Value >= 0 && errorPosition.Value < (txtCalcExpression.Text?.Length ?? 0))
+        if (errorPosition is >= 0 && errorPosition.Value < txtCalcExpression.Text.Length)
         {
             txtCalcExpression.SelectionStart = errorPosition.Value;
             txtCalcExpression.SelectionLength = 1;
@@ -215,7 +211,7 @@ public partial class MainView : Form, IMainView
     public void SetExpression(string expression)
     {
         txtCalcExpression.Text = expression;
-        txtCalcExpression.SelectionStart = expression?.Length ?? 0;
+        txtCalcExpression.SelectionStart = expression.Length;
         txtCalcExpression.SelectionLength = 0;
         txtCalcExpression.ScrollToCaret();
         txtCalcExpression.Focus();
@@ -236,8 +232,6 @@ public partial class MainView : Form, IMainView
 
         lblEmptyHistory.Visible = false;
 
-        // Thêm từ cũ nhất đến mới nhất, phép tính mới nhất (history[0]) được thêm sau cùng
-        // với DockStyle.Top sẽ luôn nằm ở hàng đầu tiên trên đỉnh (Top = 0).
         for (int i = history.Count - 1; i >= 0; i--)
         {
             var item = history[i];

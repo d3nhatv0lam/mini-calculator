@@ -19,6 +19,9 @@
         <Compile Update="Views\MainView.cs">
             <SubType>Form</SubType>
         </Compile>
+        <Compile Update="Views\Components\HistoryItemCard.cs">
+            <SubType>UserControl</SubType>
+        </Compile>
     </ItemGroup>
 
     <ItemGroup>

@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using MiniCalculator.Models;
+using MiniCalculator.Repositories;
 using Xunit;
 
 namespace MiniCalculator.Tests;

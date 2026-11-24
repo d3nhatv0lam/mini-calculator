@@ -1,4 +1,4 @@
-using MiniCalculator.Services;
+using MiniCalculator.Views.Helpers;
 using Xunit;
 
 namespace MiniCalculator.Tests;

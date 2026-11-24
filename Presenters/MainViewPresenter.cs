@@ -1,5 +1,7 @@
+using System.Diagnostics;
 using System.Globalization;
 using MiniCalculator.Models;
+using MiniCalculator.Repositories;
 using MiniCalculator.Views;
 
 namespace MiniCalculator.Presenters;
@@ -71,8 +73,7 @@ public class MainViewPresenter : IDisposable
             var formattedResult = result.ToString("G15", CultureInfo.InvariantCulture);
 
             _view.ShowCalculationSuccess(formattedResult);
-
-            // Lưu vào SQLite và làm mới danh sách lịch sử
+            
             try
             {
                 _historyRepo.Add(expr, formattedResult);
@@ -80,7 +81,7 @@ public class MainViewPresenter : IDisposable
             }
             catch
             {
-                // Không chặn người dùng nếu lưu DB gặp sự cố
+               // ignore
             }
         }
         catch (DivideByZeroException ex)

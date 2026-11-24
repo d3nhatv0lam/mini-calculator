@@ -1,4 +1,6 @@
-namespace MiniCalculator.Models;
+using MiniCalculator.Models;
+
+namespace MiniCalculator.Repositories;
 
 public interface ICalculationHistoryRepository
 {

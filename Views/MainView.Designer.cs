@@ -21,9 +21,9 @@ partial class MainView
     /// </summary>
     private void InitializeComponent()
     {
-        tableRoot = new TableLayoutPanel();
-        pnlCalculator = new Panel();
-        tableKeypad = new TableLayoutPanel();
+        tableRoot = new System.Windows.Forms.TableLayoutPanel();
+        pnlCalculator = new System.Windows.Forms.Panel();
+        tableKeypad = new System.Windows.Forms.TableLayoutPanel();
         btnLeft = new AntdUI.Button();
         btnRight = new AntdUI.Button();
         btnClear = new AntdUI.Button();
@@ -49,13 +49,13 @@ partial class MainView
         btnDot = new AntdUI.Button();
         btnComma = new AntdUI.Button();
         btnEqual = new AntdUI.Button();
-        pnlCalcDisplay = new Panel();
+        pnlCalcDisplay = new System.Windows.Forms.Panel();
         lblCalcResult = new AntdUI.Label();
         txtCalcExpression = new AntdUI.Input();
-        pnlHistory = new Panel();
-        pnlHistoryList = new Panel();
+        pnlHistory = new System.Windows.Forms.Panel();
+        pnlHistoryList = new System.Windows.Forms.Panel();
         lblEmptyHistory = new AntdUI.Label();
-        pnlHistoryHeader = new Panel();
+        pnlHistoryHeader = new System.Windows.Forms.Panel();
         btnClearHistory = new AntdUI.Button();
         lblHistoryTitle = new AntdUI.Label();
         tableRoot.SuspendLayout();
@@ -69,84 +69,43 @@ partial class MainView
         // 
         // tableRoot
         // 
-        tableRoot.BackColor = Color.FromArgb(245, 247, 250);
+        tableRoot.BackColor = System.Drawing.Color.FromArgb(((int)((byte)245)), ((int)((byte)247)), ((int)((byte)250)));
         tableRoot.ColumnCount = 2;
-        tableRoot.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 63F));
-        tableRoot.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 37F));
+        tableRoot.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 63F));
+        tableRoot.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37F));
         tableRoot.Controls.Add(pnlCalculator, 0, 0);
         tableRoot.Controls.Add(pnlHistory, 1, 0);
-        tableRoot.Dock = DockStyle.Fill;
-        tableRoot.Location = new Point(0, 0);
-        tableRoot.Margin = new Padding(0);
+        tableRoot.Dock = System.Windows.Forms.DockStyle.Fill;
+        tableRoot.Location = new System.Drawing.Point(0, 0);
+        tableRoot.Margin = new System.Windows.Forms.Padding(0);
         tableRoot.Name = "tableRoot";
-        tableRoot.Padding = new Padding(12);
+        tableRoot.Padding = new System.Windows.Forms.Padding(12);
         tableRoot.RowCount = 1;
-        tableRoot.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-        tableRoot.Size = new Size(960, 560);
+        tableRoot.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+        tableRoot.Size = new System.Drawing.Size(980, 600);
         tableRoot.TabIndex = 0;
         // 
         // pnlCalculator
         // 
-        pnlCalculator.BackColor = Color.Transparent;
+        pnlCalculator.BackColor = System.Drawing.Color.Transparent;
         pnlCalculator.Controls.Add(tableKeypad);
         pnlCalculator.Controls.Add(pnlCalcDisplay);
-        pnlCalculator.Dock = DockStyle.Fill;
-        pnlCalculator.Location = new Point(12, 12);
-        pnlCalculator.Margin = new Padding(0, 0, 8, 0);
+        pnlCalculator.Dock = System.Windows.Forms.DockStyle.Fill;
+        pnlCalculator.Location = new System.Drawing.Point(12, 12);
+        pnlCalculator.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
         pnlCalculator.Name = "pnlCalculator";
-        pnlCalculator.Size = new Size(581, 536);
+        pnlCalculator.Size = new System.Drawing.Size(594, 576);
         pnlCalculator.TabIndex = 0;
-        // 
-        // pnlCalcDisplay
-        // 
-        pnlCalcDisplay.BackColor = Color.Transparent;
-        pnlCalcDisplay.Controls.Add(lblCalcResult);
-        pnlCalcDisplay.Controls.Add(txtCalcExpression);
-        pnlCalcDisplay.Dock = DockStyle.Top;
-        pnlCalcDisplay.Location = new Point(0, 0);
-        pnlCalcDisplay.Margin = new Padding(0, 0, 0, 8);
-        pnlCalcDisplay.Name = "pnlCalcDisplay";
-        pnlCalcDisplay.Padding = new Padding(0, 0, 0, 4);
-        pnlCalcDisplay.Size = new Size(581, 168);
-        pnlCalcDisplay.TabIndex = 0;
-        // 
-        // txtCalcExpression
-        // 
-        txtCalcExpression.AutoScroll = true;
-        txtCalcExpression.CaretVisible = true;
-        txtCalcExpression.Dock = DockStyle.Top;
-        txtCalcExpression.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
-        txtCalcExpression.HideSelection = false;
-        txtCalcExpression.Location = new Point(0, 0);
-        txtCalcExpression.Name = "txtCalcExpression";
-        txtCalcExpression.PlaceholderText = "Bấm phím trên bàn phím máy tính...";
-        txtCalcExpression.Radius = 8;
-        txtCalcExpression.ReadOnly = true;
-        txtCalcExpression.Size = new Size(581, 90);
-        txtCalcExpression.TabIndex = 0;
-        // 
-        // lblCalcResult
-        // 
-        lblCalcResult.Dock = DockStyle.Fill;
-        lblCalcResult.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
-        lblCalcResult.ForeColor = Color.FromArgb(38, 38, 38);
-        lblCalcResult.Location = new Point(0, 90);
-        lblCalcResult.Name = "lblCalcResult";
-        lblCalcResult.Padding = new Padding(4, 8, 4, 4);
-        lblCalcResult.Size = new Size(581, 74);
-        lblCalcResult.TabIndex = 1;
-        lblCalcResult.Text = "";
-        lblCalcResult.TextAlign = ContentAlignment.TopLeft;
         // 
         // tableKeypad
         // 
-        tableKeypad.BackColor = Color.Transparent;
+        tableKeypad.BackColor = System.Drawing.Color.Transparent;
         tableKeypad.ColumnCount = 5;
-        tableKeypad.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-        tableKeypad.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-        tableKeypad.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-        tableKeypad.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-        tableKeypad.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
+        tableKeypad.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+        tableKeypad.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+        tableKeypad.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+        tableKeypad.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+        tableKeypad.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
         tableKeypad.Controls.Add(btnLeft, 0, 0);
         tableKeypad.Controls.Add(btnRight, 1, 0);
         tableKeypad.Controls.Add(btnClear, 2, 0);
@@ -172,404 +131,416 @@ partial class MainView
         tableKeypad.Controls.Add(btnDot, 2, 4);
         tableKeypad.Controls.Add(btnComma, 3, 4);
         tableKeypad.Controls.Add(btnEqual, 4, 4);
-        tableKeypad.Dock = DockStyle.Fill;
-        tableKeypad.Location = new Point(0, 168);
-        tableKeypad.Margin = new Padding(0);
+        tableKeypad.Dock = System.Windows.Forms.DockStyle.Fill;
+        tableKeypad.Location = new System.Drawing.Point(0, 168);
+        tableKeypad.Margin = new System.Windows.Forms.Padding(0);
         tableKeypad.Name = "tableKeypad";
         tableKeypad.RowCount = 5;
-        tableKeypad.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
-        tableKeypad.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
-        tableKeypad.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
-        tableKeypad.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
-        tableKeypad.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
-        tableKeypad.Size = new Size(581, 414);
+        tableKeypad.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+        tableKeypad.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+        tableKeypad.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+        tableKeypad.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+        tableKeypad.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+        tableKeypad.Size = new System.Drawing.Size(594, 408);
         tableKeypad.TabIndex = 1;
         // 
         // btnLeft
         // 
-        btnLeft.Dock = DockStyle.Fill;
-        btnLeft.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-        btnLeft.Location = new Point(3, 3);
-        btnLeft.Margin = new Padding(3);
+        btnLeft.Dock = System.Windows.Forms.DockStyle.Fill;
+        btnLeft.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+        btnLeft.Location = new System.Drawing.Point(3, 3);
         btnLeft.Name = "btnLeft";
         btnLeft.Radius = 8;
-        btnLeft.Size = new Size(110, 76);
+        btnLeft.Size = new System.Drawing.Size(112, 75);
         btnLeft.TabIndex = 0;
         btnLeft.Text = "←";
         // 
         // btnRight
         // 
-        btnRight.Dock = DockStyle.Fill;
-        btnRight.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-        btnRight.Location = new Point(119, 3);
-        btnRight.Margin = new Padding(3);
+        btnRight.Dock = System.Windows.Forms.DockStyle.Fill;
+        btnRight.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+        btnRight.Location = new System.Drawing.Point(121, 3);
         btnRight.Name = "btnRight";
         btnRight.Radius = 8;
-        btnRight.Size = new Size(110, 76);
+        btnRight.Size = new System.Drawing.Size(112, 75);
         btnRight.TabIndex = 1;
         btnRight.Text = "→";
         // 
         // btnClear
         // 
-        btnClear.Dock = DockStyle.Fill;
-        btnClear.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-        btnClear.Location = new Point(235, 3);
-        btnClear.Margin = new Padding(3);
+        btnClear.Dock = System.Windows.Forms.DockStyle.Fill;
+        btnClear.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+        btnClear.Location = new System.Drawing.Point(239, 3);
         btnClear.Name = "btnClear";
         btnClear.Radius = 8;
-        btnClear.Size = new Size(110, 76);
+        btnClear.Size = new System.Drawing.Size(112, 75);
         btnClear.TabIndex = 2;
         btnClear.Text = "C";
         // 
         // btnBackspace
         // 
-        btnBackspace.Dock = DockStyle.Fill;
-        btnBackspace.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-        btnBackspace.Location = new Point(351, 3);
-        btnBackspace.Margin = new Padding(3);
+        btnBackspace.Dock = System.Windows.Forms.DockStyle.Fill;
+        btnBackspace.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+        btnBackspace.Location = new System.Drawing.Point(357, 3);
         btnBackspace.Name = "btnBackspace";
         btnBackspace.Radius = 8;
-        btnBackspace.Size = new Size(110, 76);
+        btnBackspace.Size = new System.Drawing.Size(112, 75);
         btnBackspace.TabIndex = 3;
         btnBackspace.Text = "⌫";
         // 
         // btnDivide
         // 
-        btnDivide.Dock = DockStyle.Fill;
-        btnDivide.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-        btnDivide.Location = new Point(467, 3);
-        btnDivide.Margin = new Padding(3);
+        btnDivide.Dock = System.Windows.Forms.DockStyle.Fill;
+        btnDivide.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+        btnDivide.Location = new System.Drawing.Point(475, 3);
         btnDivide.Name = "btnDivide";
         btnDivide.Radius = 8;
-        btnDivide.Size = new Size(111, 76);
+        btnDivide.Size = new System.Drawing.Size(116, 75);
         btnDivide.TabIndex = 4;
         btnDivide.Text = "/";
         // 
         // btnOpenParen
         // 
-        btnOpenParen.Dock = DockStyle.Fill;
-        btnOpenParen.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-        btnOpenParen.Location = new Point(3, 85);
-        btnOpenParen.Margin = new Padding(3);
+        btnOpenParen.Dock = System.Windows.Forms.DockStyle.Fill;
+        btnOpenParen.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+        btnOpenParen.Location = new System.Drawing.Point(3, 84);
         btnOpenParen.Name = "btnOpenParen";
         btnOpenParen.Radius = 8;
-        btnOpenParen.Size = new Size(110, 76);
+        btnOpenParen.Size = new System.Drawing.Size(112, 75);
         btnOpenParen.TabIndex = 5;
         btnOpenParen.Text = "(";
         // 
         // btn7
         // 
-        btn7.Dock = DockStyle.Fill;
-        btn7.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-        btn7.Location = new Point(119, 85);
-        btn7.Margin = new Padding(3);
+        btn7.Dock = System.Windows.Forms.DockStyle.Fill;
+        btn7.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+        btn7.Location = new System.Drawing.Point(121, 84);
         btn7.Name = "btn7";
         btn7.Radius = 8;
-        btn7.Size = new Size(110, 76);
+        btn7.Size = new System.Drawing.Size(112, 75);
         btn7.TabIndex = 6;
         btn7.Text = "7";
         // 
         // btn8
         // 
-        btn8.Dock = DockStyle.Fill;
-        btn8.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-        btn8.Location = new Point(235, 85);
-        btn8.Margin = new Padding(3);
+        btn8.Dock = System.Windows.Forms.DockStyle.Fill;
+        btn8.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+        btn8.Location = new System.Drawing.Point(239, 84);
         btn8.Name = "btn8";
         btn8.Radius = 8;
-        btn8.Size = new Size(110, 76);
+        btn8.Size = new System.Drawing.Size(112, 75);
         btn8.TabIndex = 7;
         btn8.Text = "8";
         // 
         // btn9
         // 
-        btn9.Dock = DockStyle.Fill;
-        btn9.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-        btn9.Location = new Point(351, 85);
-        btn9.Margin = new Padding(3);
+        btn9.Dock = System.Windows.Forms.DockStyle.Fill;
+        btn9.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+        btn9.Location = new System.Drawing.Point(357, 84);
         btn9.Name = "btn9";
         btn9.Radius = 8;
-        btn9.Size = new Size(110, 76);
+        btn9.Size = new System.Drawing.Size(112, 75);
         btn9.TabIndex = 8;
         btn9.Text = "9";
         // 
         // btnMultiply
         // 
-        btnMultiply.Dock = DockStyle.Fill;
-        btnMultiply.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-        btnMultiply.Location = new Point(467, 85);
-        btnMultiply.Margin = new Padding(3);
+        btnMultiply.Dock = System.Windows.Forms.DockStyle.Fill;
+        btnMultiply.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+        btnMultiply.Location = new System.Drawing.Point(475, 84);
         btnMultiply.Name = "btnMultiply";
         btnMultiply.Radius = 8;
-        btnMultiply.Size = new Size(111, 76);
+        btnMultiply.Size = new System.Drawing.Size(116, 75);
         btnMultiply.TabIndex = 9;
         btnMultiply.Text = "*";
         // 
         // btnCloseParen
         // 
-        btnCloseParen.Dock = DockStyle.Fill;
-        btnCloseParen.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-        btnCloseParen.Location = new Point(3, 167);
-        btnCloseParen.Margin = new Padding(3);
+        btnCloseParen.Dock = System.Windows.Forms.DockStyle.Fill;
+        btnCloseParen.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+        btnCloseParen.Location = new System.Drawing.Point(3, 165);
         btnCloseParen.Name = "btnCloseParen";
         btnCloseParen.Radius = 8;
-        btnCloseParen.Size = new Size(110, 76);
+        btnCloseParen.Size = new System.Drawing.Size(112, 75);
         btnCloseParen.TabIndex = 10;
         btnCloseParen.Text = ")";
         // 
         // btn4
         // 
-        btn4.Dock = DockStyle.Fill;
-        btn4.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-        btn4.Location = new Point(119, 167);
-        btn4.Margin = new Padding(3);
+        btn4.Dock = System.Windows.Forms.DockStyle.Fill;
+        btn4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+        btn4.Location = new System.Drawing.Point(121, 165);
         btn4.Name = "btn4";
         btn4.Radius = 8;
-        btn4.Size = new Size(110, 76);
+        btn4.Size = new System.Drawing.Size(112, 75);
         btn4.TabIndex = 11;
         btn4.Text = "4";
         // 
         // btn5
         // 
-        btn5.Dock = DockStyle.Fill;
-        btn5.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-        btn5.Location = new Point(235, 167);
-        btn5.Margin = new Padding(3);
+        btn5.Dock = System.Windows.Forms.DockStyle.Fill;
+        btn5.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+        btn5.Location = new System.Drawing.Point(239, 165);
         btn5.Name = "btn5";
         btn5.Radius = 8;
-        btn5.Size = new Size(110, 76);
+        btn5.Size = new System.Drawing.Size(112, 75);
         btn5.TabIndex = 12;
         btn5.Text = "5";
         // 
         // btn6
         // 
-        btn6.Dock = DockStyle.Fill;
-        btn6.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-        btn6.Location = new Point(351, 167);
-        btn6.Margin = new Padding(3);
+        btn6.Dock = System.Windows.Forms.DockStyle.Fill;
+        btn6.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+        btn6.Location = new System.Drawing.Point(357, 165);
         btn6.Name = "btn6";
         btn6.Radius = 8;
-        btn6.Size = new Size(110, 76);
+        btn6.Size = new System.Drawing.Size(112, 75);
         btn6.TabIndex = 13;
         btn6.Text = "6";
         // 
         // btnMinus
         // 
-        btnMinus.Dock = DockStyle.Fill;
-        btnMinus.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-        btnMinus.Location = new Point(467, 167);
-        btnMinus.Margin = new Padding(3);
+        btnMinus.Dock = System.Windows.Forms.DockStyle.Fill;
+        btnMinus.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+        btnMinus.Location = new System.Drawing.Point(475, 165);
         btnMinus.Name = "btnMinus";
         btnMinus.Radius = 8;
-        btnMinus.Size = new Size(111, 76);
+        btnMinus.Size = new System.Drawing.Size(116, 75);
         btnMinus.TabIndex = 14;
         btnMinus.Text = "-";
         // 
         // btnRoot
         // 
-        btnRoot.Dock = DockStyle.Fill;
-        btnRoot.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-        btnRoot.Location = new Point(3, 249);
-        btnRoot.Margin = new Padding(3);
+        btnRoot.Dock = System.Windows.Forms.DockStyle.Fill;
+        btnRoot.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+        btnRoot.Location = new System.Drawing.Point(3, 246);
         btnRoot.Name = "btnRoot";
         btnRoot.Radius = 8;
-        btnRoot.Size = new Size(110, 76);
+        btnRoot.Size = new System.Drawing.Size(112, 75);
         btnRoot.TabIndex = 15;
         btnRoot.Text = "ⁿ√x";
         // 
         // btn1
         // 
-        btn1.Dock = DockStyle.Fill;
-        btn1.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-        btn1.Location = new Point(119, 249);
-        btn1.Margin = new Padding(3);
+        btn1.Dock = System.Windows.Forms.DockStyle.Fill;
+        btn1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+        btn1.Location = new System.Drawing.Point(121, 246);
         btn1.Name = "btn1";
         btn1.Radius = 8;
-        btn1.Size = new Size(110, 76);
+        btn1.Size = new System.Drawing.Size(112, 75);
         btn1.TabIndex = 16;
         btn1.Text = "1";
         // 
         // btn2
         // 
-        btn2.Dock = DockStyle.Fill;
-        btn2.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-        btn2.Location = new Point(235, 249);
-        btn2.Margin = new Padding(3);
+        btn2.Dock = System.Windows.Forms.DockStyle.Fill;
+        btn2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+        btn2.Location = new System.Drawing.Point(239, 246);
         btn2.Name = "btn2";
         btn2.Radius = 8;
-        btn2.Size = new Size(110, 76);
+        btn2.Size = new System.Drawing.Size(112, 75);
         btn2.TabIndex = 17;
         btn2.Text = "2";
         // 
         // btn3
         // 
-        btn3.Dock = DockStyle.Fill;
-        btn3.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-        btn3.Location = new Point(351, 249);
-        btn3.Margin = new Padding(3);
+        btn3.Dock = System.Windows.Forms.DockStyle.Fill;
+        btn3.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+        btn3.Location = new System.Drawing.Point(357, 246);
         btn3.Name = "btn3";
         btn3.Radius = 8;
-        btn3.Size = new Size(110, 76);
+        btn3.Size = new System.Drawing.Size(112, 75);
         btn3.TabIndex = 18;
         btn3.Text = "3";
         // 
         // btnPlus
         // 
-        btnPlus.Dock = DockStyle.Fill;
-        btnPlus.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-        btnPlus.Location = new Point(467, 249);
-        btnPlus.Margin = new Padding(3);
+        btnPlus.Dock = System.Windows.Forms.DockStyle.Fill;
+        btnPlus.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+        btnPlus.Location = new System.Drawing.Point(475, 246);
         btnPlus.Name = "btnPlus";
         btnPlus.Radius = 8;
-        btnPlus.Size = new Size(111, 76);
+        btnPlus.Size = new System.Drawing.Size(116, 75);
         btnPlus.TabIndex = 19;
         btnPlus.Text = "+";
         // 
         // btnPower
         // 
-        btnPower.Dock = DockStyle.Fill;
-        btnPower.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-        btnPower.Location = new Point(3, 331);
-        btnPower.Margin = new Padding(3);
+        btnPower.Dock = System.Windows.Forms.DockStyle.Fill;
+        btnPower.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+        btnPower.Location = new System.Drawing.Point(3, 327);
         btnPower.Name = "btnPower";
         btnPower.Radius = 8;
-        btnPower.Size = new Size(110, 80);
+        btnPower.Size = new System.Drawing.Size(112, 78);
         btnPower.TabIndex = 20;
         btnPower.Text = "xʸ";
         // 
         // btn0
         // 
-        btn0.Dock = DockStyle.Fill;
-        btn0.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-        btn0.Location = new Point(119, 331);
-        btn0.Margin = new Padding(3);
+        btn0.Dock = System.Windows.Forms.DockStyle.Fill;
+        btn0.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+        btn0.Location = new System.Drawing.Point(121, 327);
         btn0.Name = "btn0";
         btn0.Radius = 8;
-        btn0.Size = new Size(110, 80);
+        btn0.Size = new System.Drawing.Size(112, 78);
         btn0.TabIndex = 21;
         btn0.Text = "0";
         // 
         // btnDot
         // 
-        btnDot.Dock = DockStyle.Fill;
-        btnDot.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-        btnDot.Location = new Point(235, 331);
-        btnDot.Margin = new Padding(3);
+        btnDot.Dock = System.Windows.Forms.DockStyle.Fill;
+        btnDot.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+        btnDot.Location = new System.Drawing.Point(239, 327);
         btnDot.Name = "btnDot";
         btnDot.Radius = 8;
-        btnDot.Size = new Size(110, 80);
+        btnDot.Size = new System.Drawing.Size(112, 78);
         btnDot.TabIndex = 22;
         btnDot.Text = ".";
         // 
         // btnComma
         // 
-        btnComma.Dock = DockStyle.Fill;
-        btnComma.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-        btnComma.Location = new Point(351, 331);
-        btnComma.Margin = new Padding(3);
+        btnComma.Dock = System.Windows.Forms.DockStyle.Fill;
+        btnComma.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+        btnComma.Location = new System.Drawing.Point(357, 327);
         btnComma.Name = "btnComma";
         btnComma.Radius = 8;
-        btnComma.Size = new Size(110, 80);
+        btnComma.Size = new System.Drawing.Size(112, 78);
         btnComma.TabIndex = 23;
         btnComma.Text = ",";
         // 
         // btnEqual
         // 
-        btnEqual.Dock = DockStyle.Fill;
-        btnEqual.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-        btnEqual.Location = new Point(467, 331);
-        btnEqual.Margin = new Padding(3);
+        btnEqual.Dock = System.Windows.Forms.DockStyle.Fill;
+        btnEqual.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+        btnEqual.Location = new System.Drawing.Point(475, 327);
         btnEqual.Name = "btnEqual";
         btnEqual.Radius = 8;
-        btnEqual.Size = new Size(111, 80);
+        btnEqual.Size = new System.Drawing.Size(116, 78);
         btnEqual.TabIndex = 24;
         btnEqual.Text = "=";
         btnEqual.Type = AntdUI.TTypeMini.Primary;
         // 
+        // pnlCalcDisplay
+        // 
+        pnlCalcDisplay.BackColor = System.Drawing.Color.Transparent;
+        pnlCalcDisplay.Controls.Add(lblCalcResult);
+        pnlCalcDisplay.Controls.Add(txtCalcExpression);
+        pnlCalcDisplay.Dock = System.Windows.Forms.DockStyle.Top;
+        pnlCalcDisplay.Location = new System.Drawing.Point(0, 0);
+        pnlCalcDisplay.Margin = new System.Windows.Forms.Padding(0, 0, 0, 8);
+        pnlCalcDisplay.Name = "pnlCalcDisplay";
+        pnlCalcDisplay.Padding = new System.Windows.Forms.Padding(0, 0, 0, 4);
+        pnlCalcDisplay.Size = new System.Drawing.Size(594, 168);
+        pnlCalcDisplay.TabIndex = 0;
+        // 
+        // lblCalcResult
+        // 
+        lblCalcResult.Dock = System.Windows.Forms.DockStyle.Fill;
+        lblCalcResult.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Bold);
+        lblCalcResult.ForeColor = System.Drawing.Color.FromArgb(((int)((byte)38)), ((int)((byte)38)), ((int)((byte)38)));
+        lblCalcResult.Location = new System.Drawing.Point(0, 90);
+        lblCalcResult.Name = "lblCalcResult";
+        lblCalcResult.Padding = new System.Windows.Forms.Padding(4, 8, 4, 4);
+        lblCalcResult.Size = new System.Drawing.Size(594, 74);
+        lblCalcResult.TabIndex = 1;
+        lblCalcResult.Text = "";
+        lblCalcResult.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+        // 
+        // txtCalcExpression
+        // 
+        txtCalcExpression.AutoScroll = true;
+        txtCalcExpression.Dock = System.Windows.Forms.DockStyle.Top;
+        txtCalcExpression.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold);
+        txtCalcExpression.HideSelection = false;
+        txtCalcExpression.Location = new System.Drawing.Point(0, 0);
+        txtCalcExpression.LostFocusClearSelection = false;
+        txtCalcExpression.Name = "txtCalcExpression";
+        txtCalcExpression.PlaceholderText = "Bấm phím trên bàn phím máy tính...";
+        txtCalcExpression.Radius = 8;
+        txtCalcExpression.ReadOnly = true;
+        txtCalcExpression.Size = new System.Drawing.Size(594, 90);
+        txtCalcExpression.TabIndex = 0;
+        // 
         // pnlHistory
         // 
-        pnlHistory.BackColor = Color.White;
+        pnlHistory.BackColor = System.Drawing.Color.White;
         pnlHistory.Controls.Add(pnlHistoryList);
         pnlHistory.Controls.Add(pnlHistoryHeader);
-        pnlHistory.Dock = DockStyle.Fill;
-        pnlHistory.Location = new Point(609, 12);
-        pnlHistory.Margin = new Padding(8, 0, 0, 0);
+        pnlHistory.Dock = System.Windows.Forms.DockStyle.Fill;
+        pnlHistory.Location = new System.Drawing.Point(622, 12);
+        pnlHistory.Margin = new System.Windows.Forms.Padding(8, 0, 0, 0);
         pnlHistory.Name = "pnlHistory";
-        pnlHistory.Padding = new Padding(12);
-        pnlHistory.Size = new Size(339, 536);
+        pnlHistory.Padding = new System.Windows.Forms.Padding(12);
+        pnlHistory.Size = new System.Drawing.Size(346, 576);
         pnlHistory.TabIndex = 1;
         // 
         // pnlHistoryList
         // 
         pnlHistoryList.AutoScroll = true;
-        pnlHistoryList.BackColor = Color.Transparent;
+        pnlHistoryList.BackColor = System.Drawing.Color.Transparent;
         pnlHistoryList.Controls.Add(lblEmptyHistory);
-        pnlHistoryList.Dock = DockStyle.Fill;
-        pnlHistoryList.Location = new Point(12, 52);
+        pnlHistoryList.Dock = System.Windows.Forms.DockStyle.Fill;
+        pnlHistoryList.Location = new System.Drawing.Point(12, 52);
         pnlHistoryList.Name = "pnlHistoryList";
-        pnlHistoryList.Padding = new Padding(0, 4, 2, 4);
-        pnlHistoryList.Size = new Size(315, 472);
+        pnlHistoryList.Padding = new System.Windows.Forms.Padding(0, 4, 2, 4);
+        pnlHistoryList.Size = new System.Drawing.Size(322, 512);
         pnlHistoryList.TabIndex = 1;
         // 
         // lblEmptyHistory
         // 
-        lblEmptyHistory.Dock = DockStyle.Fill;
-        lblEmptyHistory.Font = new Font("Segoe UI", 10F, FontStyle.Italic);
-        lblEmptyHistory.ForeColor = Color.FromArgb(140, 140, 140);
-        lblEmptyHistory.Location = new Point(0, 4);
+        lblEmptyHistory.Dock = System.Windows.Forms.DockStyle.Fill;
+        lblEmptyHistory.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Italic);
+        lblEmptyHistory.ForeColor = System.Drawing.Color.FromArgb(((int)((byte)140)), ((int)((byte)140)), ((int)((byte)140)));
+        lblEmptyHistory.Location = new System.Drawing.Point(0, 4);
         lblEmptyHistory.Name = "lblEmptyHistory";
-        lblEmptyHistory.Size = new Size(313, 464);
+        lblEmptyHistory.Size = new System.Drawing.Size(320, 504);
         lblEmptyHistory.TabIndex = 0;
         lblEmptyHistory.Text = "Chưa có lịch sử phép tính nào";
-        lblEmptyHistory.TextAlign = ContentAlignment.MiddleCenter;
+        lblEmptyHistory.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
         // 
         // pnlHistoryHeader
         // 
-        pnlHistoryHeader.BackColor = Color.Transparent;
+        pnlHistoryHeader.BackColor = System.Drawing.Color.Transparent;
         pnlHistoryHeader.Controls.Add(btnClearHistory);
         pnlHistoryHeader.Controls.Add(lblHistoryTitle);
-        pnlHistoryHeader.Dock = DockStyle.Top;
-        pnlHistoryHeader.Location = new Point(12, 12);
+        pnlHistoryHeader.Dock = System.Windows.Forms.DockStyle.Top;
+        pnlHistoryHeader.Location = new System.Drawing.Point(12, 12);
         pnlHistoryHeader.Name = "pnlHistoryHeader";
-        pnlHistoryHeader.Size = new Size(315, 40);
+        pnlHistoryHeader.Size = new System.Drawing.Size(322, 40);
         pnlHistoryHeader.TabIndex = 0;
         // 
         // btnClearHistory
         // 
-        btnClearHistory.Dock = DockStyle.Right;
-        btnClearHistory.Font = new Font("Segoe UI", 9.5F);
-        btnClearHistory.Location = new Point(225, 0);
+        btnClearHistory.Dock = System.Windows.Forms.DockStyle.Right;
+        btnClearHistory.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+        btnClearHistory.ForeColor = System.Drawing.Color.FromArgb(((int)((byte)244)), ((int)((byte)67)), ((int)((byte)54)));
+        btnClearHistory.Location = new System.Drawing.Point(232, 0);
         btnClearHistory.Name = "btnClearHistory";
-        btnClearHistory.Radius = 6;
-        btnClearHistory.Size = new Size(90, 40);
+        btnClearHistory.Size = new System.Drawing.Size(90, 40);
         btnClearHistory.TabIndex = 1;
         btnClearHistory.Text = "Xóa tất cả";
         // 
         // lblHistoryTitle
         // 
-        lblHistoryTitle.Dock = DockStyle.Left;
-        lblHistoryTitle.Font = new Font("Segoe UI", 12.5F, FontStyle.Bold);
-        lblHistoryTitle.ForeColor = Color.FromArgb(38, 38, 38);
-        lblHistoryTitle.Location = new Point(0, 0);
+        lblHistoryTitle.Dock = System.Windows.Forms.DockStyle.Left;
+        lblHistoryTitle.Font = new System.Drawing.Font("Segoe UI", 12.5F, System.Drawing.FontStyle.Bold);
+        lblHistoryTitle.ForeColor = System.Drawing.Color.FromArgb(((int)((byte)38)), ((int)((byte)38)), ((int)((byte)38)));
+        lblHistoryTitle.Location = new System.Drawing.Point(0, 0);
         lblHistoryTitle.Name = "lblHistoryTitle";
-        lblHistoryTitle.Size = new Size(180, 40);
+        lblHistoryTitle.Size = new System.Drawing.Size(180, 40);
         lblHistoryTitle.TabIndex = 0;
         lblHistoryTitle.Text = "Lịch sử phép tính";
-        lblHistoryTitle.TextAlign = ContentAlignment.MiddleLeft;
         // 
         // MainView
         // 
-        AutoScaleDimensions = new SizeF(8F, 20F);
-        AutoScaleMode = AutoScaleMode.Font;
-        BackColor = Color.FromArgb(245, 247, 250);
-        ClientSize = new Size(980, 600);
+        AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+        AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+        BackColor = System.Drawing.Color.FromArgb(((int)((byte)245)), ((int)((byte)247)), ((int)((byte)250)));
+        ClientSize = new System.Drawing.Size(980, 600);
         Controls.Add(tableRoot);
-        FormBorderStyle = FormBorderStyle.Sizable;
-        MaximizeBox = true;
-        MinimumSize = new Size(880, 580);
-        Name = "MainView";
-        StartPosition = FormStartPosition.CenterScreen;
-        Text = "Phân giải và tính toán biểu thức số học";
+        MinimumSize = new System.Drawing.Size(880, 580);
+        StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+        Text = "Mini Calculator";
         tableRoot.ResumeLayout(false);
         pnlCalculator.ResumeLayout(false);
         tableKeypad.ResumeLayout(false);

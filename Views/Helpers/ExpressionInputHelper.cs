@@ -1,6 +1,4 @@
-using System;
-
-namespace MiniCalculator.Services;
+namespace MiniCalculator.Views.Helpers;
 
 
 public static class ExpressionInputHelper
@@ -11,13 +9,13 @@ public static class ExpressionInputHelper
     /// </summary>
     public static (string newText, int newPos) ComputeSmartWrap(string text, int pos, string funcName)
     {
-        if (text == null) text = "";
+        if (string.IsNullOrEmpty(text)) text = "";
         if (pos < 0 || pos > text.Length)
         {
             pos = text.Length;
         }
 
-        // Bỏ qua khoảng trắng trước con trỏ (nếu có)
+        // Bỏ qua khoảng trắng trước con trỏ
         int scan = pos;
         while (scan > 0 && char.IsWhiteSpace(text[scan - 1]))
         {
@@ -31,7 +29,7 @@ public static class ExpressionInputHelper
         {
             char lastChar = text[scan - 1];
 
-            // Trường hợp 1: Kết thúc bằng dấu ngoặc đóng ')' -> tìm cặp ngoặc '(' tương ứng
+            // Kết thúc bằng dấu ngoặc đóng ')' -> tìm cặp ngoặc '(' tương ứng
             if (lastChar == ')')
             {
                 int parenDepth = 1;
@@ -99,7 +97,7 @@ public static class ExpressionInputHelper
 
     /// <summary>
     /// Xác định số lượng ký tự cần xóa khi nhấn Backspace bên trái con trỏ.
-    /// Nhận diện token: root( (5 ký tự), pow( (4 ký tự), các toán tử kèm khoảng trắng ' + ' (3 ký tự), ', ' (2 ký tự).
+    /// root( (5 ký tự), pow( (4 ký tự), các toán tử kèm khoảng trắng ' + ' (3 ký tự), ', ' (2 ký tự).
     /// </summary>
     public static int ComputeDeleteCount(string text, int pos)
     {
@@ -127,9 +125,6 @@ public static class ExpressionInputHelper
         return 1;
     }
 
-    /// <summary>
-    /// Tính toán vị trí con trỏ mới khi lùi sang trái, tự động bỏ qua toàn bộ các khoảng trắng liền kề.
-    /// </summary>
     public static int GetPreviousCaretPosition(string text, int pos)
     {
         if (string.IsNullOrEmpty(text) || pos <= 0) return 0;
@@ -143,10 +138,7 @@ public static class ExpressionInputHelper
 
         return pos;
     }
-
-    /// <summary>
-    /// Tính toán vị trí con trỏ mới khi tiến sang phải, tự động bỏ qua toàn bộ các khoảng trắng liền kề.
-    /// </summary>
+    
     public static int GetNextCaretPosition(string text, int pos)
     {
         if (string.IsNullOrEmpty(text) || pos >= text.Length) return text?.Length ?? 0;
